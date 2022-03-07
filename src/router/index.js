@@ -4,19 +4,33 @@
 
 import { createRouter,createWebHashHistory} from "vue-router";
 
-// import Layout from '@/layouts'
+import Layout from '@/layouts'
 
 const routes = [
-    { path: "/", redirect: "/login" },
+    {
+        path: "/",
+        redirect: "/index",
+        component:Layout,
+        children:[
+            {
+                path: 'index',
+                name: 'index',
+                component: () => import('@/views/index/index'),
+                meta: {
+                    title: '主页',
+                },
+            }
+        ]
+    },
     {
         path: "/login",
         name: "login",
-        component: () => import('@/views/login/index'),
+        component: () => import('@/views/login'),
     },
     {
         path: "/shopping",
         name: "shopping",
-        component: () => import('@/views/shopping/index'),
+        component: () => import('@/views/shopping'),
     },
 ]
 
