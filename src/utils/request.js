@@ -6,10 +6,13 @@ import {
   noPermissionCode,
   requestTimeout,
   successCode,
+  tokenName
 } from '@/config'
 // import store from '@/store'
 // import router from '@/router'
 import { isArray } from '@/utils/validate'
+import {message} from 'ant-design-vue'
+import { useUserStore } from '@/store/modules/user'
 
 /**
  * @description 处理code异常
@@ -21,7 +24,7 @@ const handleCode = (code, msg) => {
     case invalidCode:
       message.error(msg || `后端接口${code}异常`)
       // store.dispatch('user/resetAccessToken').catch(() => {})
-      location.reload()
+      // location.reload()
       break
     case noPermissionCode:
       message.error(msg || `没有权限访问`, 'error')
@@ -42,9 +45,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    // if (store.getters['user/accessToken']) {
-    //   config.headers[tokenName] = store.getters['user/accessToken']
-    // }
+    const userStore = useUserStore()
+    config.headers[tokenName] = userStore.accessToken
     //这里会过滤所有为空、0、false的key，如果不需要请自行注释
     // if (config.data && config.headers['Content-Type'] !== 'multipart/form-data')
       // config.data = Vue.prototype.$baseLodash.pickBy(config.data, Vue.prototype.$baseLodash.identity)

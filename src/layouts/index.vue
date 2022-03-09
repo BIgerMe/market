@@ -7,23 +7,11 @@
       </router-link>
       <div style="display: inline-block;float: left">
         <a-menu v-model:selectedKeys="current" mode="horizontal">
-          <a-menu-item key="mail">
-            <template #icon>
-              <MailOutlined />
-            </template>
-            导航一
-          </a-menu-item>
-          <a-menu-item key="app">
-            <template #icon>
-              <appstoreOutlined />
-            </template>
-            导航二
-          </a-menu-item>
           <a-sub-menu>
             <template #icon>
               <settingOutlined />
             </template>
-            <template #title>导航三</template>
+            <template #title>菜单栏</template>
             <a-menu-item-group title="Item 1">
               <a-menu-item key="setting:1">Option 1</a-menu-item>
               <a-menu-item key="setting:2">Option 2</a-menu-item>
@@ -33,11 +21,6 @@
               <a-menu-item key="setting:4">Option 4</a-menu-item>
             </a-menu-item-group>
           </a-sub-menu>
-          <a-menu-item key="alipay">
-            <a href="https://antdv.com" target="_blank" rel="noopener noreferrer">
-              导航四
-            </a>
-          </a-menu-item>
         </a-menu>
       </div>
       <div style="float: right;display: inline-block">
@@ -54,13 +37,18 @@
           </a-sub-menu>
           <a-sub-menu>
             <template #title>
-              未登录
-              <a-avatar shape="square">
-                <template #icon><UserOutlined /></template>
-              </a-avatar>
-<!--              <a-avatar :size="32" shape="square" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />-->
+              <div v-if="!user.accessToken">
+                未登录
+                <a-avatar shape="square">
+                  <template #icon><UserOutlined /></template>
+                </a-avatar>
+              </div>
+              <div v-else>
+                {{user.nickname}}
+                <a-avatar :size="32" shape="square" :src="user.avatar" />
+              </div>
             </template>
-            <div v-if="accessToken">
+            <div v-if="user.accessToken">
               <a-menu-item key="logout">退出登录</a-menu-item>
             </div>
             <div v-else>
@@ -73,7 +61,7 @@
     <a-layout-content style="padding: 0 50px">
       <router-view :key="key" class="app-main-height" />
     </a-layout-content>
-    <a-layout-footer style="text-align: center">
+    <a-layout-footer style="text-align: center;">
       {{ footerCopyright }}
     </a-layout-footer>
   </a-layout>
@@ -81,13 +69,21 @@
 <script>
   import { footerCopyright } from '@/config'
   import { AlertOutlined, ShoppingCartOutlined, UserOutlined, MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
-
+  import { useUserStore } from '@/store/modules/user'
+  import {getUrlParam} from '@/utils/common'
   export default({
       name:'appMain',
       data(){
           return{
-              accessToken:'',
+              user:useUserStore(),
               footerCopyright
+          }
+      },
+      mounted(){
+          let code = getUrlParam('code')
+          if(code!==null && !this.user.accessToken){//如果是微信登陆
+              //根据code获取access_token
+              this.user.wxLogin({code})
           }
       },
       components:{
@@ -119,7 +115,9 @@
               }
           },
           logout() {
-              console.log('退出登录');return;
+              this.user.logout()
+              const fullPath = this.$route.fullPath
+              this.$router.push(`/login?redirect=${fullPath}`)
           },
       }
   });

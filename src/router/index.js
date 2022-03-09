@@ -9,7 +9,7 @@ import Layout from '@/layouts'
 const routes = [
     {
         path: "/",
-        redirect: "/index",
+        redirect: "/shopping/index",
         component:Layout,
         children:[
             {
@@ -29,8 +29,25 @@ const routes = [
     },
     {
         path: "/shopping",
-        name: "shopping",
-        component: () => import('@/views/shopping'),
+        redirect: "/shopping/index",
+        component:Layout,
+        children:[
+            {
+                path: 'index',
+                name: 'm_home',
+                component: () => import('@/views/shopping'),
+                meta: {
+                    title: '商品首页',
+                },
+            },{
+                path: 'detail/:id',
+                name: 'g_detail',
+                component: () => import('@/views/shopping/detail'),
+                meta: {
+                    title: '商品详情',
+                },
+            },
+        ]
     },
 ]
 
