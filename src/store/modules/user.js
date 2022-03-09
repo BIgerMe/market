@@ -84,6 +84,12 @@ export const useUserStore = defineStore({
         },
     },
     persist: {
-        enabled: true
+        enabled: true,
+        strategies: [
+            {
+                storage: localStorage,
+                paths: ['username', 'nickname','avatar']
+            }
+        ]
     }
 })
