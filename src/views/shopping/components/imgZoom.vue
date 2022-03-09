@@ -6,13 +6,13 @@
          @mouseenter="mouseEnter"
          @mousemove="mousemove($event)">
       <!--原始照片-小照片-->
-      <img :style="minImgStyle" fit="contain" ref="minImg" :src="finalMinIMGsrc"/>
+      <img :style="minImgStyle"  ref="minImg" :src="finalMinIMGsrc"/>
       <!--探测块-->
       <div v-show="show" class="areaMark" :style="areaMarkStyle"></div>
     </div>
-    <div class="box maxImgBox" :style="maxImgBoxStyle" v-show="show">
+    <div class="box maxImgBox" :style="maxImgBoxStyle" v-if="show">
       <!--放大后的照片-->
-      <img :style="maxImgStyle" fit="contain" :src="finalMaxIMGsrc"/>
+      <img :style="maxImgStyle"  :src="finalMaxIMGsrc"/>
     </div>
   </div>
 </template>
@@ -48,11 +48,14 @@
           cursor: 'move',
           display:'inline-block'
         },
-        minImgStyle: {},
+        minImgStyle: {
+          'object-fit':"cover"
+        },
         maxImgBoxStyle: {
           display:'inline-block',
         },
         maxImgStyle: {
+          'object-fit':"cover",
           position: 'absolute',
           'z-index':999
         },

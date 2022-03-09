@@ -1,50 +1,46 @@
 <template>
   <div>
-    <a-row :gutter="20" class="part1">
-      <a-col :lg="16" :offset=4>
-        <div style="height:100px"></div>
-      </a-col>
-      <a-col :lg="16" :offset=4>
-        <a-col :lg="9" id="goods-img">
-
-          <imgZoom  :width="width"  :height="height" :minIMGsrc="coverImg" :scale="3" />
-
-          <div class="thumb-list">
-            <div id="thumb-list">
-              <ul class="thumb">
-                <li v-for="item in form.imgList" class="thumb-li"
-                    @mouseover="selectStyle(item)"
-                    :class="{'active':item===coverImg}"
-                >
-                  <img style="width: 50px;height: 50px" :src="item">
-                </li>
-              </ul>
-            </div>
+    <div style="height:100px"></div>
+    <div style="min-width: 1300px;height:600px;position:relative">
+      <div style="display: inline-block;width: 500px;height:500px;position: relative">
+        <div class="thumb-list" style="display: inline-block;width: 70px;position: absolute;top: 0;left: -50px">
+          <div id="thumb-list">
+            <ul class="thumb">
+              <li v-for="item in form.imgList" class="thumb-li"
+                  @mouseover="selectStyle(item)"
+                  :class="{'active':item===coverImg}"
+              >
+                <img :src="item">
+              </li>
+            </ul>
           </div>
-        </a-col>
-        <a-col :lg="15">
-          <a-card class="md-light-card">
-            <h2>{{form.title}}</h2>
+        </div>
+        <div style="display: inline-block">
+          <imgZoom  :width="width"  :height="height" :minIMGsrc="coverImg" :scale="3" />
+        </div>
+      </div>
+      <div style="display: inline-block;width: 700px;text-align: left">
+        <div style="position:absolute;top: 0;width: 700px">
+          <a-card >
+          <h2>{{form.title}}</h2>
             <div>
-              <span aria-hidden="true">
-                <span class="price-symbol">¥</span>
-                <span class="price-whole">{{form.price_int}}<span class="price-decimal">.</span></span>
-                <span class="price-fraction">{{form.price_decimal}}</span>
-                <em class="sale"><strong>18</strong>%<span class="icon">OFF</span></em>
-              </span>
+                  <span aria-hidden="true">
+                    <span class="price-symbol">¥</span>
+                    <span class="price-whole">{{form.price_int}}<span class="price-decimal">.</span></span>
+                    <span class="price-fraction">{{form.price_decimal}}</span>
+                    <em class="sale"><strong>18</strong>%<span class="icon">OFF</span></em>
+                  </span>
             </div>
-
-            <div >
-              <el-input-number v-model="order.num" controls-position="right" :min="1" :max="10"></el-input-number> 件
-              &emsp;
+            <div>
+              <a-input-number id="inputNumber" v-model:value="order.num" :min="1" :max="10" /> 件
             </div>
             <div style="margin-top: 20px">
-              <el-button type="danger" size="large" round><b>现在购买</b></el-button>
+              <a-button type="danger" size="large" round><b>现在购买</b></a-button>
             </div>
           </a-card>
-        </a-col>
-      </a-col>
-    </a-row>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -98,7 +94,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .price-symbol,.price-decimal,.price-fraction{
     position: relative;
     top: -.75em;
@@ -107,35 +103,21 @@
   .price-whole{
     font-size: 28px;
   }
-
-</style>
-<style lang="scss" scoped>
-  .thumb-list{
-    width:420px;
-    margin-top: 10px;
-    #thumb-list{
-      overflow: hidden;
-      .thumb{
-        width: 500px;
-        padding: 0;
-        .thumb-li{
-          display:inline;
-          margin: 0 3px;
-        }
-        .thumb-li.active>img{
-          border: 2px solid #e53e41;
-        }
-      }
+  ul.thumb{
+    padding-left: 0;
+    list-style-type: none;
+    .thumb-li>img{
+      width: 50px;
+      height: 50px;
+      margin-bottom: 3px;
+      object-fit: cover;
+    }
+    .thumb-li.active>img{
+      border: 2px solid #e53e41;
     }
   }
-  .image{
-    width: 100%;
-    opacity:0.1;
-    display: block;
-  }
-  .button{
-    float:right
-  }
+
+
   .sale{
     margin-left: 20px;
     color: #ff3100;
