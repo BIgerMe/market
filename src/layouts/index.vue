@@ -58,7 +58,7 @@
         </a-menu>
       </div>
     </a-layout-header>
-    <a-layout-content style="padding: 0 50px">
+    <a-layout-content style="padding: 0 50px;min-height: 85.5vh">
       <router-view :key="key" class="app-main-height" />
     </a-layout-content>
     <a-layout-footer style="text-align: center;">

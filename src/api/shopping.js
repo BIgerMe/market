@@ -22,6 +22,20 @@ export function goodsDetail(data) {
     params:data
   })
 }
+export function addCart(data) {
+  return request({
+    url: '/z/cart/addCart',
+    method: 'post',
+    data
+  })
+}
+export function cartDetail(data) {
+  return request({
+    url: '/z/cart/cartDetail',
+    method: 'get',
+    params:data
+  })
+}
 
 
 

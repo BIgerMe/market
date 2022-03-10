@@ -32,10 +32,10 @@
                   </span>
             </div>
             <div>
-              <a-input-number id="inputNumber" v-model:value="order.num" :min="1" :max="10" /> 件
+              <a-input-number id="inputNumber" v-model:value="cart.num" :min="1" :max="10" /> 件
             </div>
             <div style="margin-top: 20px">
-              <a-button type="danger" size="large" round><b>现在购买</b></a-button>
+              <a-button type="danger" size="large" round @click="addCart()"><b>加入购物车</b></a-button>
             </div>
           </a-card>
         </div>
@@ -47,31 +47,32 @@
 
 <script>
   import imgZoom from './components/imgZoom'
-  import {goodsDetail} from '@/api/shopping'
+  import {addCart,goodsDetail} from '@/api/shopping'
+  import { ref, computed} from 'vue'
   export default {
     name: 'g_detail',
     data() {
       return {
-        order:{
-          num:1
+        cart:{
+            num:1,
+        },
+        form : {
+            id:'',
+            title:'',
+            cover:'',
+            video:'',
+            imgList:[],
+            price:0,
+            origin_price:'',
+            unit:'件',
+            min:0,
+            max:0,
+            storage:0,
+            shelf:'0',
+            recommend:0,
+            category:[],
         },
         coverImg:'',
-        form:{
-          id:'',
-          title:'',
-          cover:'',
-          video:'',
-          imgList:[],
-          price:'',
-          origin_price:'',
-          unit:'件',
-          min:0,
-          max:0,
-          storage:0,
-          shelf:'0',
-          recommend:0,
-          category:[],
-        },
         width:420,
         height:420,
       }
@@ -91,6 +92,12 @@
       selectStyle(item) {
         this.coverImg = item
       },
+      /*添加到购物车*/
+      async addCart(){
+          const { data } = await addCart({ data:this.form,cart: this.cart})
+          let routeData = this.$router.resolve({ name: 'c_Message', params: {id:data.id} });
+          window.open(routeData.href, '_blank')
+      }
     },
   }
 </script>

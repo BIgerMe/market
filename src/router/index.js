@@ -46,7 +46,15 @@ const routes = [
                 meta: {
                     title: '商品详情',
                 },
+            }, {
+                path: 'cartMessage/:id',
+                name: 'c_Message',
+                component: () => import('@/views/shopping/cartMessage'),
+                meta: {
+                    title: '加入购物车',
+                },
             },
+
         ]
     },
 ]
