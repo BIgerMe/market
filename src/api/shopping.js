@@ -22,6 +22,7 @@ export function goodsDetail(data) {
     params:data
   })
 }
+//加入购物车
 export function addCart(data) {
   return request({
     url: '/z/cart/addCart',
@@ -29,11 +30,19 @@ export function addCart(data) {
     data
   })
 }
+//单独商品购物车详情
 export function cartDetail(data) {
   return request({
     url: '/z/cart/cartDetail',
     method: 'get',
     params:data
+  })
+}
+//购物车列表
+export function cartList() {
+  return request({
+    url: '/z/cart/cartList',
+    method: 'get',
   })
 }
 

@@ -7,7 +7,8 @@
           sub-title=""
       >
         <template #extra>
-          <div style="text-align: left;margin-bottom: 10px;border-radius: 10px;background: #ffffff;box-shadow:  rgb(253 253 253) 5px 5px 3px, #fdfdfd -5px -5px 3px">
+          <div
+              style="text-align: left;margin-bottom: 10px;border-radius: 10px;background: #ffffff;box-shadow:  rgb(253 253 253) 5px 5px 3px, #fdfdfd -5px -5px 3px">
             <div style="display: inline-block">
               <img style="border-radius: 10px;height: 100px;width: 100px;object-fit: cover" :src="data.cover">
             </div>
@@ -16,8 +17,8 @@
               <p>{{data.num}} 件</p>
             </div>
           </div>
-          <a-button key="console" type="primary">去结算</a-button>
-          <a-button key="buy">继续逛逛</a-button>
+          <a-button @click="handleClick('cart')" type="primary">去结算</a-button>
+          <a-button @click="handleClick('buy')">继续逛逛</a-button>
         </template>
       </a-result>
     </div>
@@ -25,29 +26,39 @@
 </template>
 
 <script>
-    import { useUserStore } from '@/store/modules/user'
-    import {cartDetail} from "@/api/shopping";
+  import {useUserStore} from '@/store/modules/user'
+  import {cartDetail} from "@/api/shopping";
 
-    export default {
+  export default {
     name: 'c_Message',
     data() {
       return {
-          data : {
-              cover:'',
-          },
-          userStore:useUserStore()
+        data: {
+          cover: '',
+        },
+        userStore: useUserStore()
       }
     },
-    components:{  },
+    components: {},
     created() {
-        this.fetchData()
+      this.fetchData()
     },
     methods: {
-        async fetchData(){
-            const { data } = await cartDetail({ id: this.$route.params.id })
-            this.data = data
-            console.log(this.data)
+      //获取加入购物车商品信息
+      async fetchData() {
+        const {data} = await cartDetail({id: this.$route.params.id})
+        this.data = data
+      },
+      handleClick(key) {
+        switch (key) {
+          case 'cart':
+            this.$router.push('/shopping/cart')
+            break;
+          case 'buy':
+            this.$router.push('/shopping')
+            break;
         }
+      }
     },
   }
 </script>

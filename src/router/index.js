@@ -53,6 +53,13 @@ const routes = [
                 meta: {
                     title: '加入购物车',
                 },
+            },{
+                path: 'cart',
+                name: 'c',
+                component: () => import('@/views/shopping/cart'),
+                meta: {
+                    title: '购物车',
+                },
             },
 
         ]
