@@ -80,7 +80,7 @@
         <template #renderItem="{ item }">
           <a-list-item key="item.title">
             <template #actions>
-              <a-button type="link" size="small" danger>删除</a-button>
+              <a-button type="link" size="small" danger @click="handleDel(item.id)">删除</a-button>
             </template>
             <a-list-item-meta>
               <template #title>
@@ -114,7 +114,7 @@
 
 <script>
   import {useUserStore} from '@/store/modules/user'
-  import {cartList} from "@/api/shopping";
+  import {cartList,delCart} from "@/api/shopping";
   import {pca, list, add, del} from "@/api/address";
 
   export default {
@@ -142,17 +142,16 @@
     },
     components: {},
     created() {
-      this.fetchData()
+      this.getCartList()
     },
     mounted() {
       this.getPca()
       this.getList()
     },
     methods: {
-      async fetchData() {
+      async getCartList() {
         const {data} = await cartList()
         this.data = data
-        console.log(this.data)
       },
       async getPca(){//省市区
         const {data} = await pca()
@@ -171,6 +170,11 @@
       async delAddressConfirm(id){
         await del({id:id}).then(()=>{
           this.getList()
+        })
+      },
+      async handleDel(id){
+        await delCart({id:id}).then(()=>{
+          this.getCartList()
         })
       }
     },

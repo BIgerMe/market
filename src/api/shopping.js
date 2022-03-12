@@ -45,6 +45,13 @@ export function cartList() {
     method: 'get',
   })
 }
-
+//删除购物车
+export function delCart(data) {
+  return request({
+    url: '/z/cart/del',
+    method: 'post',
+    data
+  })
+}
 
 
