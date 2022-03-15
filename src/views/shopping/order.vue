@@ -70,9 +70,6 @@
         </a-radio-group>
       </div>
     </div>
-    <div :style="{ borderBottom: '1px solid #E9E9E9' }">
-
-    </div>
     <div style="width: 1000px;display: inline-block;text-align: left">
       <a-list item-layout="horizontal" size="large" :data-source="data">
         <template #footer>
@@ -80,11 +77,11 @@
             <b>已到底部</b>
           </div>
         </template>
-
         <template #renderItem="{ item }">
           <a-list-item key="item.title">
-            <a-checkbox value="{{item.id}}" @change="changeCheck(event)"></a-checkbox>
-            &emsp;&emsp;
+            <template #actions>
+              <a-button type="link" size="small" danger @click="handleDel(item.id)">删除</a-button>
+            </template>
             <a-list-item-meta>
               <template #title>
                 <a :href="item.href">{{ item.title }}</a>
@@ -108,26 +105,20 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;
               </li>
             </ul>
-            <template #actions>
-              <a-button type="link" size="small" danger @click="handleDel(item.id)">删除</a-button>
-            </template>
           </a-list-item>
         </template>
       </a-list>
-    </div>
-    <div style="width: 1000px;display: inline-block;text-align: right">
-      <a-button danger @click="handleOrder()">提交结算</a-button>
     </div>
   </div>
 </template>
 
 <script>
   import {useUserStore} from '@/store/modules/user'
-  import {cartList,delCart} from "@/api/shopping";
+  import {orderList} from "@/api/shopping";
   import {pca, list, add, del} from "@/api/address";
 
   export default {
-    name: 'c',
+    name: 'o',
     data() {
       return {
         visible:false,
@@ -142,7 +133,6 @@
           mobile:'',
           tag:''
         },
-        checkedList:[],
         data: [],
         pca:{},
         addressList:[],
@@ -152,15 +142,15 @@
     },
     components: {},
     created() {
-      this.getCartList()
+      this.getOrderList()
     },
     mounted() {
       this.getPca()
       this.getList()
     },
     methods: {
-      async getCartList() {
-        const {data} = await cartList()
+      async getOrderList() {
+        const {data} = await orderList()
         this.data = data
       },
       async getPca(){//省市区
@@ -182,17 +172,6 @@
           this.getList()
         })
       },
-      async handleDel(id){
-        await delCart({id:id}).then(()=>{
-          this.getCartList()
-        })
-      },
-      changeCheck(e){
-        console.log(e)
-      },
-      async handleOrder(){//下单结算
-        console.log(this.checkedList)
-      }
     },
   }
 </script>

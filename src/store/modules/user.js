@@ -74,7 +74,7 @@ export const useUserStore = defineStore({
         },
         /*登出*/
         async logout() {
-            await logout(this.accessToken)
+            // await logout(this.accessToken)
             this.setUserData({
                 username:'',
                 nickname:'',

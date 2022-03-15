@@ -53,5 +53,22 @@ export function delCart(data) {
     data
   })
 }
+//提交订单
+export function addOrder(data) {
+  return request({
+    url: '/z/order/add',
+    method: 'post',
+    data
+  })
+}
+//订单商品列表
+export function orderList(data) {
+  return request({
+    url: '/z/order/list',
+    method: 'get',
+    params:data
+  })
+}
+
 
 

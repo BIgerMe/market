@@ -60,6 +60,13 @@ const routes = [
         meta: {
           title: '购物车',
         },
+      }, {
+        path: 'order',
+        name: 'o',
+        component: () => import('@/views/shopping/order'),
+        meta: {
+          title: '下单',
+        },
       },
 
     ]

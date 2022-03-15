@@ -8,8 +8,7 @@ import {
   successCode,
   tokenName
 } from '@/config'
-// import store from '@/store'
-// import router from '@/router'
+import router from '@/router'
 import { isArray } from '@/utils/validate'
 import {message} from 'ant-design-vue'
 import { useUserStore } from '@/store/modules/user'
@@ -22,9 +21,9 @@ import { useUserStore } from '@/store/modules/user'
 const handleCode = (code, msg) => {
   switch (code) {
     case invalidCode:
-      message.error(msg || `后端接口${code}异常`)
-      // store.dispatch('user/resetAccessToken').catch(() => {})
-      // location.reload()
+      // message.error(msg || `后端接口${code}异常`)
+      useUserStore().logout()
+      router.push({ path: '/login' }).catch(() => {})
       break
     case noPermissionCode:
       message.error(msg || `没有权限访问`, 'error')
