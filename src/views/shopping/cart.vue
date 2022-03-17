@@ -83,7 +83,7 @@
 
         <template #renderItem="{ item }">
           <a-list-item key="item.title">
-            <a-checkbox value="{{item.id}}" @change="changeCheck(event)"></a-checkbox>
+            <a-checkbox v-model:checked="checkedList[item.id]"   @change="changeCheck"></a-checkbox>
             &emsp;&emsp;
             <a-list-item-meta>
               <template #title>
@@ -116,14 +116,15 @@
       </a-list>
     </div>
     <div style="width: 1000px;display: inline-block;text-align: right">
-      <a-button danger @click="handleOrder()">提交结算</a-button>
+      <h1 style="color: #ff3100">￥{{total}}&emsp;&emsp;</h1>
+      <a-button danger @click="handleOrder()" type="primary" style="margin: 10px">提交结算</a-button>
     </div>
   </div>
 </template>
 
 <script>
   import {useUserStore} from '@/store/modules/user'
-  import {cartList,delCart} from "@/api/shopping";
+  import {cartList,delCart,addOrder} from "@/api/shopping";
   import {pca, list, add, del} from "@/api/address";
 
   export default {
@@ -142,15 +143,21 @@
           mobile:'',
           tag:''
         },
-        checkedList:[],
+        checkedList:{},
+        checkedIdArr:[],
         data: [],
         pca:{},
         addressList:[],
         selectAddress:'',
-        userStore: useUserStore()
+        userStore: useUserStore(),
       }
     },
     components: {},
+    computed:{
+      total(){
+
+      }
+    },
     created() {
       this.getCartList()
     },
@@ -187,11 +194,18 @@
           this.getCartList()
         })
       },
-      changeCheck(e){
-        console.log(e)
+      changeCheck(){ //计算总额
+        let arr = [];
+        let total = 0;
+        for(let i in this.checkedList){
+          this.checkedList[i] === true && arr.push(parseInt(i))
+        }
+        this.checkedIdArr = arr;
       },
       async handleOrder(){//下单结算
-        console.log(this.checkedList)
+        await addOrder({ids:this.checkedList,address:this.selectAddress}).then(()=>{
+
+        })
       }
     },
   }
