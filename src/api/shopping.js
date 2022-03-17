@@ -64,7 +64,7 @@ export function addOrder(data) {
 //订单商品列表
 export function orderList(data) {
   return request({
-    url: '/z/order/list',
+    url: '/z/order/lists',
     method: 'get',
     params:data
   })

@@ -61,14 +61,21 @@ const routes = [
           title: '购物车',
         },
       }, {
-        path: 'order',
+        path: 'order/:id',
         name: 'o',
         component: () => import('@/views/shopping/order'),
         meta: {
-          title: '下单',
+          title: '订单详情',
         },
       },
-
+      {
+        path: 'orderList',
+        name: 'o_list',
+        component: () => import('@/views/shopping/orderList'),
+        meta: {
+          title: '订单列表',
+        },
+      }
     ]
   },
 ]

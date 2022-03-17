@@ -32,7 +32,7 @@
           </a-sub-menu>
           <a-sub-menu>
             <template #title>
-              <AlertOutlined :style="{fontSize: '20px'}"/>
+              <PayCircleOutlined @click="to('orderList')" :style="{fontSize: '20px'}" />
             </template>
           </a-sub-menu>
           <a-sub-menu>
@@ -71,7 +71,7 @@
 <script>
   import {footerCopyright} from '@/config'
   import {
-    AlertOutlined,
+    PayCircleOutlined,
     ShoppingCartOutlined,
     UserOutlined,
     MailOutlined,
@@ -97,7 +97,7 @@
       }
     },
     components: {
-      AlertOutlined,
+      PayCircleOutlined,
       ShoppingCartOutlined,
       UserOutlined,
       MailOutlined,
@@ -128,6 +128,9 @@
         switch (name) {
           case 'cart':
             this.$router.push('/shopping/cart')
+            break;
+          case 'orderList':
+            this.$router.push('/shopping/orderList')
             break;
           default:
             break;

@@ -150,10 +150,8 @@
     },
     methods: {
       async getOrderList() {
-        let params = {id: this.$route.params.id}
-        const {data} = await orderList(params)
-        this.data = data.data
-        this.selectAddress = data.order.address_id
+        const {data} = await orderList()
+        this.data = data
       },
       async getPca(){//省市区
         const {data} = await pca()

@@ -155,7 +155,13 @@
     components: {},
     computed:{
       total(){
-
+        let total = 0
+        for(let i in this.data){
+          if(this.checkedIdArr.indexOf(this.data[i].id) !== -1){
+              total += this.data[i].price * this.data[i].num
+          }
+        }
+        return total
       }
     },
     created() {
@@ -196,15 +202,14 @@
       },
       changeCheck(){ //计算总额
         let arr = [];
-        let total = 0;
         for(let i in this.checkedList){
           this.checkedList[i] === true && arr.push(parseInt(i))
         }
         this.checkedIdArr = arr;
       },
       async handleOrder(){//下单结算
-        await addOrder({ids:this.checkedList,address:this.selectAddress}).then(()=>{
-
+        await addOrder({ids:this.checkedList,address:this.selectAddress}).then((res)=>{
+          console.log(res)
         })
       }
     },
