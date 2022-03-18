@@ -34,6 +34,12 @@
             <template #title>
               <PayCircleOutlined @click="to('orderList')" :style="{fontSize: '20px'}" />
             </template>
+            <div>
+              <a-menu-item key="unpaid">待付款</a-menu-item>
+              <a-menu-item key="unReceived">待收货</a-menu-item>
+              <a-menu-item key="unComment">待评价</a-menu-item>
+              <a-menu-item key="allOrder">订单</a-menu-item>
+            </div>
           </a-sub-menu>
           <a-sub-menu>
             <template #title>
@@ -145,6 +151,9 @@
   });
 </script>
 <style>
+  .ant-menu-vertical.ant-menu-sub{
+    min-width: 0!important;
+  }
   .ant-layout {
     background: #00000000 !important;
   }
