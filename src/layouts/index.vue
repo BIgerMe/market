@@ -32,12 +32,12 @@
           </a-sub-menu>
           <a-sub-menu>
             <template #title>
-              <PayCircleOutlined @click="to('orderList')" :style="{fontSize: '20px'}" />
+              <PayCircleOutlined :style="{fontSize: '20px'}" />
             </template>
             <div>
               <a-menu-item key="unpaid">待付款</a-menu-item>
-              <a-menu-item key="unReceived">待收货</a-menu-item>
-              <a-menu-item key="unComment">待评价</a-menu-item>
+              <a-menu-item key="unreceived">待收货</a-menu-item>
+              <a-menu-item key="uncomment">待评价</a-menu-item>
               <a-menu-item key="allOrder">订单</a-menu-item>
             </div>
           </a-sub-menu>
@@ -128,6 +128,16 @@
             window.open(
               'https://chu1204505056.gitee.io/admin-plus/?hmsr=homeAd&hmpl=&hmcu=&hmkw=&hmci='
             )
+            break;
+          case 'unpaid':
+            this.$router.push('/shopping/unpaid')
+            break;
+          case 'unreceived':
+            this.$router.push('/shopping/unreceived')
+            break;
+          case 'uncomment':
+            this.$router.push('/shopping/uncomment')
+            break;
         }
       },
       to(name){

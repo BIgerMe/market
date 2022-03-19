@@ -1,6 +1,6 @@
 <template>
   <div style="width: 1000px;display:inline-block;border: 1px solid #eeeeee;margin-top:50px;">
-    <div id="address" style="width:800px;display:inline-block;min-height: 100px;text-align: left;padding: 20px 0;border-bottom: 1px solid #eeeeee">
+    <div id="address" style="width:800px;display:inline-block;min-height: 100px;text-align: left;padding: 20px 0;">
       <!--添加地址-->
       <a-button type="dashed" @click="visible=true;addAddress.id=''">添加地址</a-button>
       <a-modal v-model:visible="visible" title="添加/编辑常用地址" @ok="handleAddAddress" width="800px">
@@ -76,9 +76,6 @@
     <div style="width: 1000px;display: inline-block;text-align: left">
       <a-list item-layout="horizontal" size="large" :data-source="data">
         <template #footer>
-          <div>
-            <b>已到底部</b>
-          </div>
         </template>
 
         <template #renderItem="{ item }">
@@ -117,7 +114,7 @@
     </div>
     <div style="width: 1000px;display: inline-block;text-align: right">
       <h1 style="color: #ff3100">￥{{total}}&emsp;&emsp;</h1>
-      <a-button danger @click="handleOrder()" type="primary" style="margin: 10px">提交结算</a-button>
+      <a-button danger @click="handleOrder()" type="primary" style="margin: 10px">提交订单</a-button>
     </div>
   </div>
 </template>
@@ -209,7 +206,8 @@
       },
       async handleOrder(){//下单结算
         await addOrder({ids:this.checkedList,address:this.selectAddress}).then((res)=>{
-          console.log(res)
+          let routeData = this.$router.resolve({ name: 'o', params: {id:res.data.id} });
+          window.open(routeData.href, '_self')
         })
       }
     },

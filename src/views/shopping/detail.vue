@@ -48,7 +48,6 @@
 <script>
   import imgZoom from './components/imgZoom'
   import {addCart,goodsDetail} from '@/api/shopping'
-  import { ref, computed} from 'vue'
   export default {
     name: 'g_detail',
     data() {
@@ -82,7 +81,6 @@
       this.fetchData()
     },
     mounted() {},
-    beforeDestroy() {},
     methods: {
       async fetchData() {
         const { data } = await goodsDetail({ id: this.$route.params.id })

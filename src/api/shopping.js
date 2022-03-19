@@ -61,12 +61,27 @@ export function addOrder(data) {
     data
   })
 }
+//实时更换地址
+export function changeAddress(data) {
+  return request({
+    url: '/z/order/changeAddress',
+    method: 'post',
+    data
+  })
+}
 //订单商品列表
 export function orderList(data) {
   return request({
     url: '/z/order/lists',
     method: 'get',
     params:data
+  })
+}
+//待支付
+export function unpaid() {
+  return request({
+    url: '/z/order/unpaid',
+    method: 'get',
   })
 }
 

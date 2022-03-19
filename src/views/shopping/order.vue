@@ -1,9 +1,9 @@
 <template>
   <div style="width: 1000px;display:inline-block;border: 1px solid #eeeeee;margin-top:50px;">
-    <div id="address" style="width:800px;display:inline-block;min-height: 100px;text-align: left;padding: 20px 0;border-bottom: 1px solid #eeeeee">
+    <div id="address" style="width:800px;display:inline-block;min-height: 100px;text-align: left;padding: 20px 0;">
       <!--添加地址-->
       <a-button type="dashed" @click="visible=true;addAddress.id=''">添加地址</a-button>
-      <a-modal v-model:visible="visible" title="添加/编辑常用地址" @ok="handleAddAddress" width="800px">
+      <a-modal v-model:visible="visible" title="添加/编辑常用地址" ok-text="保存" cancel-text="取消" @ok="handleAddAddress" width="800px">
         <a-form layout="horizontal" :model="addAddress" :labelCol="{ style: 'width: 120px' }">
           <a-form-item label="详细地址">
             <a-space>
@@ -52,7 +52,7 @@
       </a-modal>
       <!--地址列表-->
       <div>
-        <a-radio-group v-model:value="selectAddress">
+        <a-radio-group v-model:value="selectAddress" @change="changeAddress">
           <a-radio  @focus="addressEditShow = item.id" :style="{display:'block',height:'30px','line-height':'30px'}" v-for="item in addressList" :value="item.id">
             {{item.name}}&nbsp;&nbsp;{{item.mobile}}&nbsp;&nbsp;{{item.address}}
             <a-button v-show="addressEditShow === item.id" @click="addAddress = item;visible=true" type="link" size="small">编辑</a-button>
@@ -72,22 +72,16 @@
     </div>
     <div style="width: 1000px;display: inline-block;text-align: left">
       <a-list item-layout="horizontal" size="large" :data-source="data">
-        <template #footer>
-          <div>
-            <b>已到底部</b>
-          </div>
+        <template #header>
+
         </template>
         <template #renderItem="{ item }">
           <a-list-item key="item.title">
-            <template #actions>
-              <a-button type="link" size="small" danger @click="handleDel(item.id)">删除</a-button>
-            </template>
             <a-list-item-meta>
               <template #title>
                 <a :href="item.href">{{ item.title }}</a>
               </template>
               <template #description>
-                <h2 style="color: #ff3100">￥{{item.price * item.num}}</h2>
               </template>
               <template #avatar>
                 <img
@@ -99,9 +93,9 @@
             </a-list-item-meta>
             <ul style="list-style: none">
               <li>
-                单价：￥{{item.price}}
+                价格：￥{{item.price * item.num}}
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <a-input-number class="cart-num" size="small" v-model:value="item.num" :min="1" :max="10"/> 件
+                {{item.num}} 件
                 &nbsp;&nbsp;&nbsp;&nbsp;
               </li>
             </ul>
@@ -109,12 +103,22 @@
         </template>
       </a-list>
     </div>
+    <div :style="{ borderBottom: '1px solid #E9E9E9' }">
+
+    </div>
+    <div style="width: 1000px;display: inline-block;text-align: right">
+      <p>总商品金额：￥{{parseFloat(order.total).toFixed(2)}}&emsp;</p>
+      <p>应付总额：<span style="color: #ff3100">￥{{parseFloat(order.total).toFixed(2)}}&emsp;</span></p>
+      <p v-if="order.address">寄送至：{{order.address.province+' '+ order.address.city+' '+order.address.area+' '+order.address.address}}&emsp;&emsp;
+        收货人：{{order.address.name+' '+order.address.mobile}}&emsp;</p>
+      <a-button danger @click="" type="primary" style="margin: 10px">去结算</a-button>
+    </div>
   </div>
 </template>
 
 <script>
   import {useUserStore} from '@/store/modules/user'
-  import {orderList} from "@/api/shopping";
+  import {orderList,changeAddress} from "@/api/shopping";
   import {pca, list, add, del} from "@/api/address";
 
   export default {
@@ -133,6 +137,7 @@
           mobile:'',
           tag:''
         },
+        order:{},
         data: [],
         pca:{},
         addressList:[],
@@ -153,6 +158,7 @@
         let params = {id: this.$route.params.id}
         const {data} = await orderList(params)
         this.data = data.data
+        this.order = data.order
         this.selectAddress = data.order.address_id
       },
       async getPca(){//省市区
@@ -162,6 +168,10 @@
       async getList(){//获取用户地址列表
         const {data} = await list()
         this.addressList = data
+      },
+      async changeAddress(){
+        const {data} = await changeAddress({id:this.order.id,address_id:this.selectAddress})
+        this.order.address = data
       },
       async handleAddAddress(){ //添加常用地址
         await add(this.addAddress).then(()=>{

@@ -75,6 +75,30 @@ const routes = [
         meta: {
           title: '订单列表',
         },
+      },
+      {
+        path: 'unpaid',
+        name: 'o_unpaid',
+        component: () => import('@/views/shopping/order/unpaid'),
+        meta: {
+          title: '待付款',
+        },
+      },
+      {
+        path: 'unreceived',
+        name: 'o_unreceived',
+        component: () => import('@/views/shopping/order/unreceived'),
+        meta: {
+          title: '待收货',
+        },
+      },
+      {
+        path: 'uncomment',
+        name: 'o_uncomment',
+        component: () => import('@/views/shopping/order/uncomment'),
+        meta: {
+          title: '待评价',
+        },
       }
     ]
   },

@@ -2,9 +2,9 @@
   <div style="margin-top: 100px">
     <div style="width:100%;text-align: center">
       <div style="width:1200px;display: inline-block">
-        <div v-for="item in top" style="display:inline-block;width: 400px;">
+        <div v-for="item in top" style="display:inline-block;width: 200px;">
           <router-link target="_blank" :to="{name:'g_detail',params:{id:item.id}}">
-            <img style="width: 100%;height: 400px;object-fit: cover" :src="item.cover">
+            <img style="width: 100%;height: 200px;object-fit: cover" :src="item.cover">
           </router-link>
         </div>
       </div>
