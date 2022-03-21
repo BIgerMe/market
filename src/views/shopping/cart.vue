@@ -70,8 +70,8 @@
         </a-radio-group>
       </div>
     </div>
-    <div :style="{ borderBottom: '1px solid #E9E9E9' }">
-
+    <div :style="{ borderBottom: '1px solid #E9E9E9',textAlign:'left',paddingLeft:'24px' }">
+      <a-checkbox v-model:checked="checkAll"   @change="handleCheckAll">全选</a-checkbox>
     </div>
     <div style="width: 1000px;display: inline-block;text-align: left">
       <a-list item-layout="horizontal" size="large" :data-source="data">
@@ -113,7 +113,7 @@
       </a-list>
     </div>
     <div style="width: 1000px;display: inline-block;text-align: right">
-      <h1 style="color: #ff3100">￥{{total}}&emsp;&emsp;</h1>
+      <h1 style="color: #ff3100">￥{{total}}&emsp;</h1>
       <a-button danger @click="handleOrder()" type="primary" style="margin: 10px">提交订单</a-button>
     </div>
   </div>
@@ -140,6 +140,7 @@
           mobile:'',
           tag:''
         },
+        checkAll:true,
         checkedList:{},
         checkedIdArr:[],
         data: [],
@@ -161,8 +162,9 @@
         return total
       }
     },
-    created() {
-      this.getCartList()
+    async created() {
+      await this.getCartList()
+      await this.handleCheckAll()
     },
     mounted() {
       this.getPca()
@@ -196,6 +198,19 @@
         await delCart({id:id}).then(()=>{
           this.getCartList()
         })
+      },
+      handleCheckAll(){//勾选全部
+        if(this.checkAll === true){
+          let arr = [];
+          for(let i in this.data){
+            this.checkedList[this.data[i].id] = true
+            arr.push(this.data[i].id)
+          }
+          this.checkedIdArr = arr
+        }else{
+          this.checkedList = {}
+          this.checkedIdArr = []
+        }
       },
       changeCheck(){ //计算总额
         let arr = [];

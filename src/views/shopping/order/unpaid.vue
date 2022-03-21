@@ -17,7 +17,7 @@
                 />
               </template>
             </a-list-item-meta>
-            <div>￥{{item.total}}</div>
+            <div>￥{{parseFloat(item.total).toFixed(2)}}</div>
           </a-list-item>
         </template>
       </a-list>

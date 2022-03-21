@@ -7,7 +7,7 @@
       </router-link>
       <div style="display: inline-block;float: left">
         <a-menu v-model:selectedKeys="current" mode="horizontal">
-          <a-sub-menu>
+          <!--<a-sub-menu>
             <template #icon>
               <settingOutlined/>
             </template>
@@ -20,7 +20,7 @@
               <a-menu-item key="setting:3">Option 3</a-menu-item>
               <a-menu-item key="setting:4">Option 4</a-menu-item>
             </a-menu-item-group>
-          </a-sub-menu>
+          </a-sub-menu>-->
         </a-menu>
       </div>
       <div style="float: right;display: inline-block">
